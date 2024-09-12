@@ -98,12 +98,14 @@ def compile_dotenvfile_values(args):
         env_key = env[0]
         env_val = env[1]
 
-        if env_val.startswith("$"):
-            env_val = env_val[2:-1]
-            output = run(env_val, shell=True, stdout=PIPE, check=True).stdout.decode('utf-8').strip()
-            dotenvfile_args.append(f'{env_key}={output}')
-        else:
-            dotenvfile_args.append(f'{env_key}={env_val}')
+        if not env_val.isdigit() and (not env_val.startswith("'") or not env_val.startswith('"')):
+            env_val = '"' + env_val + '"'
+        elif '"' not in env_val and len(env_val.split(" ")) > 1:
+            env_val = '"' + env_val + '"'
+        elif env_val.startswith("$"):
+            env_val = "'" + run(env_val[2:-1], shell=True, stdout=PIPE, check=True).stdout.decode('utf-8').strip() + "'"
+
+        dotenvfile_args.append(f'{env_key}={env_val}')
 
     return dotenvfile_args
 
