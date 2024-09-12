@@ -1,20 +1,23 @@
+.PHONY: clean
+clean:
+	@[ -f .env ] && rm -fv .env || true
+	@[ -f Dockerfile.tmp ] && rm -fv Dockerfile.tmp || true
+	@[ -f *.log ] && rm -fv *.log || true
+
 .PHONY: create-envfile
 create-envfile:
 	@python ../src/main.py Dockerfile .docker-build-args.env > .env
 
 .PHONY: import-envfile
 import-envfile:
-	$(eval include .env)
-	$(eval export)
-
-define format-Dockerfile
-	cat Dockerfile | envsubst > Dockerfile.tmp
-endef
+	@$(eval include .env)
+	@$(eval export)
 
 .PHONY: build
 build: create-envfile import-envfile 
 	@cat Dockerfile | envsubst > Dockerfile.tmp
 	@docker build \
+		--build-arg API_PORT=$(API_PORT) \
 		--build-arg IMAGE_MAINTAINER=$(IMAGE_MAINTAINER) \
 		--build-arg IMAGE_VENDOR=$(IMAGE_VENDOR) \
 		--build-arg AUTHOR_NAME=${AUTHOR_NAME} \

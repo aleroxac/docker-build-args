@@ -1,0 +1,44 @@
+failure-threshold: info          # name of threshold level (error | warning | info | style | ignore | none)
+format: tty                      # Output format (tty | json | checkstyle | codeclimate | gitlab_codeclimate | gnu | codacy)
+ignored: []                      # list of rules
+label-schema:                    # See Linting Labels below for specific label-schema details
+  maintainer: email
+  vendor: text
+
+  org.label-schema.author-name: text
+  org.label-schema.author-username: text
+  org.label-schema.author-title: text
+  org.label-schema.author-email: email
+
+  org.label-schema.license: spdx
+  org.label-schema.schema-version: semver
+  org.label-schema.vcs-ref: hash
+  org.label-schema.vcs-url: url
+  org.label-schema.build-date: rfc3339
+
+  org.label-schema.name: text
+  org.label-schema.base: text
+  org.label-schema.version: semver
+  org.label-schema.description: text
+  org.label-schema.usage: text
+  org.label-schema.url: url
+
+  org.label-schema.os-name: text
+  org.label-schema.os-version: text
+
+  org.label-schema.docker.cmd: text
+  org.label-schema.docker.cmd.devel: text
+  org.label-schema.docker.cmd.test: text
+  org.label-schema.docker.cmd.debug: text
+  org.label-schema.docker.cmd.help: text
+  org.label-schema.docker.params: text
+no-color: false                  # true | false
+no-fail: false                   # true | false
+override:
+  error: []                      # list of rules
+  warning: []                    # list of rules
+  info: []                       # list of rules
+  style: []                      # list of rules
+strict-labels: true              # true | false
+disable-ignore-pragma: false     # true | false
+trustedRegistries: ["docker.io"] # registry or list of registries
