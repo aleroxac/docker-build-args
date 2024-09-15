@@ -63,8 +63,20 @@ docker inspect aleroxac/docker-build-args:example --format "{{json .Config.Label
 git clone git@github.com/aleroxac/docker-build-args.git
 cd docker-build-args
 make install
+
+cd ~/my-awesome-project
+cat << EOF | tee -a docker-build-args.env
+API_PORT=8080
+IMAGE_MAINTAINER="acardoso.ti@gmail.com"
+BUILD_DATE=$(TZ="America/Sao_Paulo" date +'%Y-%m-%dT%H:%M:%SZ')
+SCHEMA_VERSION='1.0.0-rc.1'
+LICENSE='Apache-2.0'
+OS_NAME=$(docker run --rm --entrypoint='' golang:1.23.0 grep -E '^ID' /etc/os-release | cut -d= -f2)
+OS_VERSION=$(docker run --rm --entrypoint='' golang:1.23.0 grep -E '^VERSION_ID' /etc/os-release | cut -d= -f2|  tr -d '"')
+EOF
 docker-build-args Dockerfile docker-build-args.env
 ```
+
 
 
 ## Use mode
